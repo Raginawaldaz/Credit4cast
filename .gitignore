@@ -1,0 +1,30 @@
+# ========== 系统文件 ==========
+.DS_Store          # macOS
+Thumbs.db          # Windows
+desktop.ini        # Windows
+
+# ========== 编辑器 / IDE ==========
+.vscode/           # VS Code（也可只提交自己需要的部分）
+.idea/             # JetBrains 全家桶（IntelliJ, PyCharm 等）
+*.swp              # Vim 交换文件
+*.swo
+
+# ========== 日志和临时文件 ==========
+*.log
+*.tmp
+*.bak
+*.cache
+
+# ========== 依赖与构建输出 ==========
+node_modules/      # Node.js
+__pycache__/       # Python
+*.pyc
+.env               # 环境变量（含密钥的绝对不要上传）
+dist/              # 前端 / 其他编译输出
+build/
+target/            # Java/Maven 等
+
+# ========== 其他常见忽略 ==========
+*.zip
+*.tar.gz
+*.7z

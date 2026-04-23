@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>银行客户信用风险评估系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0d1b2a;
+  --ink:     #1a2e42;
+  --steel:   #2c4a6e;
+  --sky:     #4a8db5;
+  --mist:    #e8f0f7;
+  --paper:   #f5f7fa;
+  --gold:    #c9a84c;
+  --danger:  #c0392b;
+  --warn:    #d4721a;
+  --caution: #9b7a1e;
+  --safe:    #1a6b3c;
+  --text:    #1a2e42;
+  --sub:     #5a7a96;
+  --border:  #c8d8e8;
+  --serif:   'Noto Serif SC', serif;
+  --mono:    'DM Mono', monospace;
+}
+
+body {
+  font-family: var(--serif);
+  background: var(--paper);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 页头 ── */
+header {
+  background: var(--navy);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  border-bottom: 2px solid var(--gold);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.logo-text {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.header-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--sky);
+  letter-spacing: 0.08em;
+}
+
+/* ── 主区域 ── */
+main {
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+  width: 100%;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.page-sub {
+  font-size: 13px;
+  color: var(--sub);
+  font-family: var(--mono);
+  margin-bottom: 36px;
+  letter-spacing: 0.04em;
+}
+
+/* ── 布局 ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── 表单卡片 ── */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 32px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px; height: 14px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* ── 分组标题 ── */
+.group-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--sky);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 20px 0 12px;
+}
+.group-label:first-of-type { margin-top: 0; }
+
+/* ── 字段网格 ── */
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.fields-grid.single { grid-template-columns: 1fr; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.field .hint {
+  font-size: 11px;
+  color: #9ab0c4;
+  font-family: var(--mono);
+  margin-top: 2px;
+}
+.field input {
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: var(--mono);
+  color: var(--text);
+  background: var(--paper);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus {
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px rgba(74,141,181,0.12);
+  background: #fff;
+}
+.field input.error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+}
+
+/* ── 提交按钮 ── */
+.submit-row {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.btn-submit {
+  height: 44px;
+  padding: 0 32px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.04em;
+  position: relative;
+  overflow: hidden;
+}
+.btn-submit:hover { background: var(--steel); }
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit.loading { opacity: 0.7; pointer-events: none; }
+
+.btn-reset {
+  height: 44px;
+  padding: 0 20px;
+  background: transparent;
+  color: var(--sub);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--serif);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-reset:hover { border-color: var(--sky); color: var(--sky); }
+
+/* ── 结果面板 ── */
+.result-panel {
+  position: sticky;
+  top: 24px;
+}
+
+.result-empty {
+  background: #fff;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #9ab0c4;
+  font-size: 13px;
+  font-family: var(--mono);
+  line-height: 1.8;
+}
+.result-empty .icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+
+.result-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: none;
+}
+.result-card.visible { display: block; }
+
+.result-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.result-header .label {
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--sub);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.risk-badge.low      { background: #e6f4ec; color: var(--safe); }
+.risk-badge.medium   { background: #fdf6e3; color: var(--caution); }
+.risk-badge.high     { background: #fdf0e8; color: var(--warn); }
+.risk-badge.critical { background: #fae8e8; color: var(--danger); }
+.risk-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── 违约概率仪表 ── */
+.gauge-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.gauge-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.gauge-value {
+  font-size: 36px;
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.gauge-bar-bg {
+  height: 8px;
+  background: var(--mist);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.gauge-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 0;
+}
+.gauge-bar-fill.low      { background: var(--safe); }
+.gauge-bar-fill.medium   { background: var(--caution); }
+.gauge-bar-fill.high     { background: var(--warn); }
+.gauge-bar-fill.critical { background: var(--danger); }
+
+.gauge-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #9ab0c4;
+}
+
+/* ── 提示项 ── */
+.tips-section {
+  padding: 16px 24px 20px;
+}
+.tips-title {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.tip-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--mist);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.tip-item:last-child { border-bottom: none; }
+.tip-item::before {
+  content: '›';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── 模型信息（已清空，仅保留占位） ── */
+.model-info {
+  background: #fff;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  min-height: 90px; /* 保留原有视觉占位 */
+}
+
+/* ── 错误提示 ── */
+.error-msg {
+  background: #fae8e8;
+  border: 1px solid #f0b8b8;
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--danger);
+  margin-top: 14px;
+  display: none;
+  font-family: var(--mono);
+}
+.error-msg.visible { display: block; }
+
+/* ── 页脚 ── */
+footer {
+  background: var(--navy);
+  border-top: 1px solid var(--steel);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-text {
+  font-size: 11px;
+  color: #4a6a8a;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+/* ── 资产补充模块 ── */
+.asset-section {
+  margin-top: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 16px 18px 18px;
+  background: var(--paper);
+}
+.asset-section-title {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--sky);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.asset-optional-tag {
+  background: var(--mist);
+  color: var(--sub);
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+.asset-desc {
+  font-size: 12px;
+  color: var(--sub);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.asset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.asset-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.asset-item:hover {
+  border-color: var(--sky);
+}
+.asset-item input[type="checkbox"] {
+  width: 16px; height: 16px;
+  margin-top: 2px;
+  accent-color: var(--navy);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.asset-item-text { flex: 1; }
+.asset-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+  margin-bottom: 2px;
+}
+.asset-item-note {
+  font-size: 11px;
+  color: var(--sub);
+  font-family: var(--mono);
+}
+.asset-item.checked {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 2px rgba(13,27,42,0.08);
+  background: var(--mist);
+}
+.correction-note {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--sub);
+  font-family: var(--mono);
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .result-panel { position: static; }
+  .fields-grid { grid-template-columns: 1fr; }
+  .asset-grid { grid-template-columns: 1fr; }
+  header, footer { padding: 0 20px; }
+  main { padding: 24px 16px 48px; }
+}
+
+/* 右侧爱心面板 */
+#konami-love {
+  position: fixed; right: -300px; top: 50%; transform: translateY(-50%);
+  width: 260px;
+  background: linear-gradient(145deg, #ff6b9d, #ff3d7f, #c2185b);
+  color: #fff; border-radius: 18px 0 0 18px;
+  padding: 32px 24px 32px 28px;
+  box-shadow: -6px 0 36px rgba(255,61,127,.5);
+  z-index: 99999; text-align: center;
+  font-family: var(--serif);
+  transition: right .65s cubic-bezier(.34,1.56,.64,1);
+  user-select: none;
+}
+#konami-love.open { right: 0; }
+#konami-love .kl-pct   { font-size:48px; font-weight:900; line-height:1; text-shadow:0 2px 10px rgba(0,0,0,.2); }
+#konami-love .kl-word  { font-size:24px; font-weight:700; margin-top:4px; }
+#konami-love .kl-name  { font-size:30px; font-weight:900; margin-top:6px; letter-spacing:3px; text-shadow:0 0 18px rgba(255,255,255,.55); }
+#konami-love .kl-hearts { font-size:26px; margin-top:12px; display:inline-block;
+  animation: kl-beat .65s ease-in-out infinite alternate; }
+@keyframes kl-beat { to { transform: scale(1.22); } }
+#konami-love .kl-close {
+  margin-top: 16px; font-size: 11px; opacity: .7; cursor: pointer; text-decoration: underline;
+}
+#konami-love .kl-close:hover { opacity: 1; }
+/* 彩纸 */
+.konami-confetti {
+  position: fixed; width: 7px; height: 7px; border-radius: 2px;
+  pointer-events: none; z-index: 99998;
+  animation: kc-fall var(--cf-dur) ease-in var(--cf-delay) both;
+}
+@keyframes kc-fall {
+  0%   { transform: translate(0,0) rotate(0);        opacity: 1; }
+  100% { transform: translate(var(--cf-dx),105vh) rotate(680deg); opacity: 0; }
+}
+
+@keyframes konami-fall {
+  0%   { transform: translateY(0) rotate(var(--tilt)) scale(1);    opacity: 1; }
+  60%  { opacity: .85; }
+  100% { transform: translateY(var(--fall-dist)) rotate(calc(var(--tilt)*5)) scale(.65); opacity: 0; }
+}
+.konami-falling {
+  display: inline-block !important;
+  animation: konami-fall var(--dur) cubic-bezier(.55,0,1,.45) var(--delay) both;
+  transform-origin: center bottom;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">CR</div>
+    <div class="logo-text">信用风险评估系统</div>
+  </div>
+</header>
+
+<main>
+  <div class="page-title">客户信用风险评估</div>
+
+  <div class="layout">
+    <!-- 左侧表单 -->
+    <div class="card">
+      <div class="card-title">客户基本信息录入</div>
+
+      <div class="group-label">信贷使用情况</div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>循环信贷使用率</label>
+          <input type="number" id="RevolvingUtilizationOfUnsecuredLines"
+                 step="0.001" min="0" max="1" placeholder="如 0.350">
+          <span class="hint">范围 0~1，如 0.35 表示 35%</span>
+        </div>
+        <div class="field">
+          <label>债务收入比（DebtRatio）</label>
+          <input type="number" id="DebtRatio"
+                 step="0.001" min="0" placeholder="如 0.366">
+          <span class="hint">月总债务 / 月收入</span>
+        </div>
+        <div class="field">
+          <label>月收入（元）</label>
+          <input type="number" id="MonthlyIncome"
+                 step="1" min="0" placeholder="如 8000">
+          <span class="hint">税前月收入</span>
+        </div>
+        <div class="field">
+          <label>开放信贷/贷款账户数</label>
+          <input type="number" id="NumberOfOpenCreditLinesAndLoans"
+                 step="1" min="0" placeholder="如 8">
+          <span class="hint">信用卡 + 贷款账户总数</span>
+        </div>
+        <div class="field">
+          <label>房产/车贷数量</label>
+          <input type="number" id="NumberRealEstateLoansOrLines"
+                 step="1" min="0" placeholder="如 1">
+          <span class="hint">房贷、车贷等有抵押贷款数</span>
+        </div>
+      </div>
+
+      <div class="group-label">逾期记录</div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>逾期 30~59 天次数</label>
+          <input type="number" id="NumberOfTime30-59DaysPastDueNotWorse"
+                 step="1" min="0" placeholder="如 0">
+          <span class="hint">过去两年内</span>
+        </div>
+        <div class="field">
+          <label>逾期 60~89 天次数</label>
+          <input type="number" id="NumberOfTime60-89DaysPastDueNotWorse"
+                 step="1" min="0" placeholder="如 0">
+          <span class="hint">过去两年内</span>
+        </div>
+        <div class="field">
+          <label>逾期 ≥90 天次数</label>
+          <input type="number" id="NumberOfTimes90DaysLate"
+                 step="1" min="0" placeholder="如 0">
+          <span class="hint">严重逾期，权重最高</span>
+        </div>
+      </div>
+
+      <div class="group-label">个人基本信息</div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>年龄（岁）</label>
+          <input type="number" id="age"
+                 step="1" min="18" max="100" placeholder="如 45">
+          <span class="hint">18~100 岁</span>
+        </div>
+        <div class="field">
+          <label>家庭赡养人数</label>
+          <input type="number" id="NumberOfDependents"
+                 step="1" min="0" placeholder="如 0">
+          <span class="hint">配偶、子女、父母等</span>
+        </div>
+      </div>
+
+      <!-- 资产补充信息（可选）-->
+      <div class="asset-section">
+        <div class="asset-section-title">
+          资产持有情况补充
+          <span class="asset-optional-tag">可选</span>
+        </div>
+        <div class="asset-desc">
+          若客户名下有全款房产或车辆（无对应贷款），可在此补充说明。
+          填写后系统将在模型预测基础上叠加资产修正，评估结果更准确。
+        </div>
+        <div class="asset-grid">
+          <label class="asset-item" id="houseLabel">
+            <input type="checkbox" id="owns_house" onchange="toggleAsset('houseLabel', this)">
+            <div class="asset-item-text">
+              <span class="asset-item-label">全款持有房产</span>
+              <span class="asset-item-note">持有全款房产，无抵押贷款</span>
+            </div>
+          </label>
+          <label class="asset-item" id="carLabel">
+            <input type="checkbox" id="owns_car" onchange="toggleAsset('carLabel', this)">
+            <div class="asset-item-text">
+              <span class="asset-item-label">全款持有车辆</span>
+              <span class="asset-item-note">持有全款车辆，无对应贷款</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-submit" id="btnSubmit" onclick="doPredict()">开始评估</button>
+        <button class="btn-reset" onclick="doReset()">重置</button>
+      </div>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- 右侧结果 -->
+    <div class="result-panel">
+      <div class="result-empty" id="resultEmpty">
+        <span class="icon">⬡</span>
+        填写左侧客户信息<br>点击「开始评估」<br>即可查看风险预测结果
+      </div>
+
+      <div class="result-card" id="resultCard">
+        <div class="result-header">
+          <div class="label">风险等级</div>
+          <div class="risk-badge" id="riskBadge">
+            <span class="risk-dot"></span>
+            <span id="riskText">—</span>
+          </div>
+        </div>
+
+        <div class="gauge-section">
+          <div class="gauge-label">两年内违约概率</div>
+          <div class="gauge-value" id="gaugeValue">—</div>
+          <div class="gauge-bar-bg">
+            <div class="gauge-bar-fill" id="gaugeBar"></div>
+          </div>
+          <div class="gauge-scale">
+            <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+          </div>
+          <div id="correctionNote" style="display:none;margin-top:8px;font-size:11px;font-family:var(--mono);color:var(--sub);">
+            模型原始概率：<span id="originalProba">—</span>　→　资产修正后：<span id="correctedProba">—</span>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <div class="tips-title">风险因素分析</div>
+          <div id="tipsList"></div>
+        </div>
+
+        <div style="padding: 0 24px 20px;">
+          <div class="model-info"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-text">基于机器学习的银行客户信用风险评估模型研究 · 毕业设计原型系统</div>
+  <div class="footer-text">仅供学术研究演示，不构成实际信贷决策依据</div>
+</footer>
+
+<script>
+const FIELDS = [
+  "RevolvingUtilizationOfUnsecuredLines",
+  "age",
+  "NumberOfTime30-59DaysPastDueNotWorse",
+  "DebtRatio",
+  "MonthlyIncome",
+  "NumberOfOpenCreditLinesAndLoans",
+  "NumberOfTimes90DaysLate",
+  "NumberRealEstateLoansOrLines",
+  "NumberOfTime60-89DaysPastDueNotWorse",
+  "NumberOfDependents",
+];
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+function clearError() {
+  document.getElementById('errorMsg').classList.remove('visible');
+}
+
+function toggleAsset(labelId, checkbox) {
+  document.getElementById(labelId).classList.toggle('checked', checkbox.checked);
+}
+
+async function doPredict() {
+  clearError();
+  const payload = {};
+  let hasEmpty = false;
+
+  for (const f of FIELDS) {
+    const el = document.getElementById(f);
+    const val = el ? el.value.trim() : '';
+    el && el.classList.remove('error');
+    if (val === '') {
+      hasEmpty = true;
+      el && el.classList.add('error');
+    } else {
+      payload[f] = parseFloat(val);
+    }
+  }
+
+  if (hasEmpty) {
+    showError('请填写所有字段后再提交');
+    return;
+  }
+
+  // 可选：资产补充信息
+  payload.owns_house = document.getElementById('owns_house').checked;
+  payload.owns_car   = document.getElementById('owns_car').checked;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.textContent = '评估中…';
+  btn.classList.add('loading');
+
+  try {
+    const res = await fetch('/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (data.error) {
+      showError(data.error);
+      return;
+    }
+
+    renderResult(data);
+  } catch (e) {
+    showError('网络错误，请检查服务是否正常运行');
+  } finally {
+    btn.textContent = '开始评估';
+    btn.classList.remove('loading');
+  }
+}
+
+function renderResult(data) {
+  document.getElementById('resultEmpty').style.display = 'none';
+  const card = document.getElementById('resultCard');
+  card.classList.add('visible');
+
+  // 风险等级
+  const badge = document.getElementById('riskBadge');
+  badge.className = `risk-badge ${data.risk_code}`;
+  document.getElementById('riskText').textContent = data.risk_level;
+
+  // 概率仪表
+  document.getElementById('gaugeValue').textContent = data.probability_pct;
+  const bar = document.getElementById('gaugeBar');
+  bar.className = `gauge-bar-fill ${data.risk_code}`;
+  bar.style.width = '0';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      bar.style.width = `${Math.min(data.probability * 100, 100)}%`;
+    });
+  });
+
+  // 资产修正提示
+  const corrNote = document.getElementById('correctionNote');
+  if (data.asset_corrected) {
+    document.getElementById('originalProba').textContent =
+      (data.original_probability * 100).toFixed(1) + '%';
+    document.getElementById('correctedProba').textContent = data.probability_pct;
+    corrNote.style.display = 'block';
+  } else {
+    corrNote.style.display = 'none';
+  }
+
+  // 风险因素
+  const list = document.getElementById('tipsList');
+  list.innerHTML = data.tips.map(t =>
+    `<div class="tip-item">${t}</div>`
+  ).join('');
+}
+
+function doReset() {
+  FIELDS.forEach(f => {
+    const el = document.getElementById(f);
+    if (el) { el.value = ''; el.classList.remove('error'); }
+  });
+  // 清空资产选项
+  ['owns_house', 'owns_car'].forEach(id => {
+    const cb = document.getElementById(id);
+    if (cb) cb.checked = false;
+  });
+  document.getElementById('houseLabel').classList.remove('checked');
+  document.getElementById('carLabel').classList.remove('checked');
+  clearError();
+  document.getElementById('resultEmpty').style.display = '';
+  document.getElementById('resultCard').classList.remove('visible');
+}
+
+// 回车提交
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doPredict();
+});
+</script>
+
+<!-- 彩蛋爱心面板 -->
+<div id="konami-love">
+  <div class="kl-pct">100%</div>
+  <div class="kl-word">Love</div>
+  <div class="kl-name">Mina 💕</div>
+  <div id="birthdayMsg" style="display:none; margin-top:10px; font-size:16px;">
+    🎂 生日快乐！
+  </div>
+  <img id="minaPhoto" style="display:none; margin-top:12px; width:180px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.2);" />
+  <div class="kl-hearts">♥ ♥ ♥</div>
+  <div class="kl-close" onclick="document.getElementById('konami-love').classList.remove('open')">关闭</div>
+</div>
+
+<script>
+/* ── 彩蛋：↑ ↑ ↓ ↓ ← → ← → B A  &  mina0904 ── */
+(function () {
+  const SEQ = [
+    'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+    'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
+    'b','a'
+  ];
+  const MINA_SEQ = ['m','i','n','a','0','9','0','4'];
+
+  let ptr = 0;
+  let minaPtr = 0;
+  let done = false;
+
+  document.addEventListener('keydown', function (e) {
+    if (done) return;
+
+    const key = e.key === 'B' ? 'b' : e.key === 'A' ? 'a' : e.key;
+
+    // Konami sequence
+    if (key === SEQ[ptr]) {
+      ptr++;
+      if (ptr === SEQ.length) {
+        done = true;
+        triggerEasterEgg(false);
+        return;
+      }
+    } else {
+      ptr = (key === SEQ[0]) ? 1 : 0;
+    }
+
+    // mina0904 sequence
+    if (key === MINA_SEQ[minaPtr]) {
+      minaPtr++;
+      if (minaPtr === MINA_SEQ.length) {
+        done = true;
+        triggerEasterEgg(true);
+        return;
+      }
+    } else {
+      minaPtr = (key === MINA_SEQ[0]) ? 1 : 0;
+    }
+  });
+
+  function triggerEasterEgg (forceBirthday) {
+    crashText();
+    setTimeout(function () {
+      document.getElementById('konami-love').classList.add('open');
+    }, 160);
+    spawnConfetti();
+
+    const now = new Date();
+    const isBirthday = (now.getMonth() + 1 === 9) && (now.getDate() === 4);
+
+    if (isBirthday || forceBirthday) {
+      showBirthday();
+    }
+  }
+
+  async function showBirthday() {
+    document.getElementById('birthdayMsg').style.display = 'block';
+
+    try {
+      const res = await fetch('/static/mina.bin');
+      const buf = await res.arrayBuffer();
+      const blob = new Blob([buf], { type: 'image/jpeg' });
+      const url = URL.createObjectURL(blob);
+      const img = document.getElementById('minaPhoto');
+      img.src = url;
+      img.style.display = 'block';
+    } catch (e) {
+      console.log('birthday image load failed', e);
+    }
+  }
+
+  function crashText () {
+    const SKIP = new Set(['SCRIPT','STYLE','NOSCRIPT','SVG','PATH','CANVAS','INPUT','TEXTAREA']);
+    function hasText (el) {
+      for (let n of el.childNodes)
+        if (n.nodeType === 3 && n.textContent.trim()) return true;
+      return false;
+    }
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
+    const leaves = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (SKIP.has(node.tagName)) continue;
+      if (node.closest('#konami-love')) continue;
+      if (hasText(node)) leaves.push(node);
+    }
+    leaves.forEach(function (el, i) {
+      const rect = el.getBoundingClientRect();
+      if (!rect.width && !rect.height) return;
+      const tilt     = (Math.random() * 28 - 14).toFixed(1) + 'deg';
+      const delay    = (i * 16 + Math.random() * 55).toFixed(0) + 'ms';
+      const dur      = (460 + Math.random() * 400).toFixed(0) + 'ms';
+      const fallDist = (window.innerHeight - rect.top + 30).toFixed(0) + 'px';
+      el.style.setProperty('--tilt',      tilt);
+      el.style.setProperty('--delay',     delay);
+      el.style.setProperty('--dur',       dur);
+      el.style.setProperty('--fall-dist', fallDist);
+      el.classList.add('konami-falling');
+    });
+  }
+
+  function spawnConfetti () {
+    const colors = ['#ff4081','#ff9800','#4caf50','#2196f3','#9c27b0','#ffeb3b','#ffffff'];
+    for (let i = 0; i < 90; i++) {
+      const el = document.createElement('div');
+      el.className = 'konami-confetti';
+      el.style.left       = Math.random() * 100 + 'vw';
+      el.style.top        = '-10px';
+      el.style.background = colors[i % colors.length];
+      el.style.setProperty('--cf-dur',   (700 + Math.random() * 1100).toFixed(0) + 'ms');
+      el.style.setProperty('--cf-delay', (Math.random() * 500).toFixed(0) + 'ms');
+      el.style.setProperty('--cf-dx',    (Math.random() * 130 - 65).toFixed(0) + 'px');
+      document.body.appendChild(el);
+      el.addEventListener('animationend', function () { el.remove(); });
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
