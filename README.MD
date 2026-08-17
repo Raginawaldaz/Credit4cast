@@ -1,4 +1,4 @@
-# 银行客户信用风险评估系统
+# 银行客户信用风险评估系统 <a id="zh"></a>
 
 > 基于机器学习（CatBoost）的银行客户信用风险评估系统 —— 本科毕业设计原型系统
 >
@@ -6,7 +6,19 @@
 
 基于 **Flask** 的轻量 Web 应用：输入客户特征，调用 **CatBoost** 模型输出违约概率与风险等级，并给出简要风险提示。
 
-## ✨ 功能特性
+## 📖 目录 / Table of Contents <a id="zh-toc"></a>
+
+**中文 / Chinese**
+
+- ✨ [功能特性](#zh-features) ｜ 🧠 [模型说明](#zh-model) ｜ 📋 [环境要求](#zh-requirements) ｜ 🚀 [快速开始](#zh-quickstart) ｜ 🔌 [API 接口](#zh-api) ｜ 📁 [项目结构](#zh-structure) ｜ 📄 [许可证](#zh-license) ｜ ⚠️ [免责声明](#zh-disclaimer)
+
+**English**
+
+- ✨ [Features](#en-features) ｜ 🧠 [Model Details](#en-model) ｜ 📋 [Requirements](#en-requirements) ｜ 🚀 [Quick Start](#en-quickstart) ｜ 🔌 [API Reference](#en-api) ｜ 📁 [Project Structure](#en-structure) ｜ 📄 [License](#en-license) ｜ ⚠️ [Disclaimer](#en-disclaimer)
+
+**语言切换 / Language switch：** [🌐 英文版 / English ↓](#en) ｜ [⬆ 中文版 / 中文](#zh)
+
+## ✨ 功能特性 <a id="zh-features"></a>
 
 - 🧠 **CatBoost 梯度提升模型**：训练指标 AUC ≈ 0.8422，KS ≈ 0.542
 - 📊 **10 维客户特征输入**（Give Me Some Credit 风格），自动缺失值填充
@@ -16,7 +28,7 @@
 - 🖥️ **简洁单页界面**：表单录入 + 实时结果仪表盘
 - 🔌 **JSON REST API**：`POST /predict` 可直接集成到其他系统
 
-## 🧠 模型说明
+## 🧠 模型说明 <a id="zh-model"></a>
 
 | 项目 | 说明 |
 |------|------|
@@ -43,12 +55,12 @@
 | 仅全款车辆 | × 1.05（小幅上调） |
 | 均无 | 不修正 |
 
-## 📋 环境要求
+## 📋 环境要求 <a id="zh-requirements"></a>
 
 - Python 3.9+（建议与训练环境一致）
 - 依赖见 [`requirements.txt`](requirements.txt)：Flask、CatBoost、pandas、numpy、joblib、scikit-learn
 
-## 🚀 快速开始
+## 🚀 快速开始 <a id="zh-quickstart"></a>
 
 ### 1. 安装依赖
 
@@ -77,7 +89,7 @@ python app.py
 
 浏览器访问 <http://127.0.0.1:5000>
 
-## 🔌 API 接口
+## 🔌 API 接口 <a id="zh-api"></a>
 
 ### `GET /` — 网页表单
 
@@ -133,7 +145,7 @@ curl -X POST http://127.0.0.1:5000/predict \
 | 500 | 预测过程异常 |
 | 503 | 模型未加载（请检查 `catboost_model.pkl` 是否就位） |
 
-## 📁 项目结构
+## 📁 项目结构 <a id="zh-structure"></a>
 
 ```
 .
@@ -149,11 +161,11 @@ curl -X POST http://127.0.0.1:5000/predict \
 └── README.md              # 本文档
 ```
 
-## 📄 许可证
+## 📄 许可证 <a id="zh-license"></a>
 
 本项目采用 **Apache License 2.0** 开源协议，详见 [LICENSE](LICENSE)。
 
-## ⚠️ 免责声明
+## ⚠️ 免责声明 <a id="zh-disclaimer"></a>
 
 - **本项目为本科毕业设计原型系统，仅供学习交流与演示，不构成任何信贷或投资建议。**
 - 实际业务部署需满足金融监管合规、审计与模型治理（Model Governance）要求，模型需经过独立验证与审批后方可上线。
@@ -161,15 +173,17 @@ curl -X POST http://127.0.0.1:5000/predict \
 
 ---
 
-# Bank Customer Credit Risk Assessment System
+# Bank Customer Credit Risk Assessment System <a id="en"></a>
 
 > A lightweight machine-learning-based credit risk assessment system — bachelor thesis prototype
 >
 > 基于 CatBoost 的银行客户信用风险评估系统
 
+[⬆ 返回中文版 / Back to Chinese](#zh) ｜ [📖 目录 / TOC](#zh-toc)
+
 A **Flask**-based lightweight web application: input customer features, call the **CatBoost** model to output the probability of default (PD) and a risk rating, along with brief risk explanations.
 
-## ✨ Features
+## ✨ Features <a id="en-features"></a>
 
 - 🧠 **CatBoost gradient boosting model**: AUC ≈ 0.8422, KS ≈ 0.542
 - 📊 **10-dimensional customer features** (Give Me Some Credit style) with automatic missing-value imputation
@@ -179,7 +193,7 @@ A **Flask**-based lightweight web application: input customer features, call the
 - 🖥️ **Clean single-page UI**: form input + real-time result dashboard
 - 🔌 **JSON REST API**: `POST /predict` can be integrated into other systems directly
 
-## 🧠 Model Details
+## 🧠 Model Details <a id="en-model"></a>
 
 | Item | Description |
 |------|-------------|
@@ -206,12 +220,12 @@ A **Flask**-based lightweight web application: input customer features, call the
 | Paid-off car only | × 1.05 (slightly up) |
 | Neither | No adjustment |
 
-## 📋 Requirements
+## 📋 Requirements <a id="en-requirements"></a>
 
 - Python 3.9+ (preferably matching the training environment)
 - Dependencies in [`requirements.txt`](requirements.txt): Flask, CatBoost, pandas, numpy, joblib, scikit-learn
 
-## 🚀 Quick Start
+## 🚀 Quick Start <a id="en-quickstart"></a>
 
 ### 1. Install dependencies
 
@@ -240,7 +254,7 @@ python app.py
 
 Open <http://127.0.0.1:5000> in your browser.
 
-## 🔌 API Reference
+## 🔌 API Reference <a id="en-api"></a>
 
 ### `GET /` — Web form
 
@@ -296,7 +310,7 @@ curl -X POST http://127.0.0.1:5000/predict \
 | 500 | Unexpected error during prediction |
 | 503 | Model not loaded (check whether `catboost_model.pkl` is in place) |
 
-## 📁 Project Structure
+## 📁 Project Structure <a id="en-structure"></a>
 
 ```
 .
@@ -312,11 +326,11 @@ curl -X POST http://127.0.0.1:5000/predict \
 └── README.md              # This document
 ```
 
-## 📄 License
+## 📄 License <a id="en-license"></a>
 
 This project is licensed under the **Apache License 2.0** — see [LICENSE](LICENSE).
 
-## ⚠️ Disclaimer
+## ⚠️ Disclaimer <a id="en-disclaimer"></a>
 
 - **This project is a bachelor thesis prototype intended for learning, exchange and demonstration only. It does not constitute any credit or investment advice.**
 - Any production deployment must meet financial regulatory compliance, audit, and model governance requirements; the model must pass independent validation and approval before going live.
