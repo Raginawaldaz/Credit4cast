@@ -143,7 +143,7 @@ curl -X POST http://127.0.0.1:5000/predict \
 ├── templates/
 │   └── index.html         # 前端页面（表单 + 结果仪表盘）
 ├── static/
-│   └── mina.bin           # 静态资源（彩蛋用图片）
+│   └── mina.bin           # 静态资源
 ├── requirements.txt       # Python 依赖
 ├── LICENSE                # Apache License 2.0
 └── README.md              # 本文档
@@ -306,7 +306,7 @@ curl -X POST http://127.0.0.1:5000/predict \
 ├── templates/
 │   └── index.html         # Front-end page (form + result dashboard)
 ├── static/
-│   └── mina.bin           # Static asset (image used by an easter egg)
+│   └── mina.bin           # Static asset
 ├── requirements.txt       # Python dependencies
 ├── LICENSE                # Apache License 2.0
 └── README.md              # This document
